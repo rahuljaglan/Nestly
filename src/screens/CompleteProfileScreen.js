@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../utils/firebase';
 import { doc, setDoc } from 'firebase/firestore';
+import { FIRESTORE_DB } from '../utils/firebase';
 
 const CompleteProfileScreen = () => {
   const { user, setProfileComplete } = useAuth();
@@ -22,9 +23,24 @@ const CompleteProfileScreen = () => {
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [bio, setBio] = useState('');
+  const [budget, setBudget] = useState('');
+  const [location, setLocation] = useState('');
+  const [moveInDate, setMoveInDate] = useState('');
+  const [interests, setInterests] = useState('');
+  const [lifestyle, setLifestyle] = useState('');
 
   const handleSubmit = async () => {
-    if (!fullName || !age || !gender || !bio) {
+    if (
+      !fullName ||
+      !age ||
+      !gender ||
+      !bio ||
+      !budget ||
+      !location ||
+      !moveInDate ||
+      !interests ||
+      !lifestyle
+    ) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
@@ -36,18 +52,21 @@ const CompleteProfileScreen = () => {
         age: Number(age),
         gender,
         bio,
+        budget: Number(budget),
+        location,
+        moveInDate,
+        interests: interests.split(',').map((i) => i.trim()),
+        lifestyle,
         email: user.email,
         createdAt: new Date(),
-        profileComplete: true, // 🟢 This flag is important
+        profileComplete: true,
+        photoURL: '', // Next step: Upload photo and update this
       });
 
-      // 🔁 Update profileComplete in context
       if (setProfileComplete) {
         setProfileComplete(true);
       }
-
-      // Navigate to Home screen
-      // navigation.replace('Home');
+      navigation.replace('Swipe');
     } catch (err) {
       console.error('Error saving profile:', err);
       Alert.alert('Error', 'Failed to save profile');
@@ -84,6 +103,37 @@ const CompleteProfileScreen = () => {
         value={bio}
         onChangeText={setBio}
         style={[styles.input, { height: 80 }]}
+      />
+      <TextInput
+        placeholder="Budget (per month)"
+        keyboardType="numeric"
+        value={budget}
+        onChangeText={setBudget}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Location (City or Area)"
+        value={location}
+        onChangeText={setLocation}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Move-in Date (YYYY-MM-DD)"
+        value={moveInDate}
+        onChangeText={setMoveInDate}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Interests (comma separated)"
+        value={interests}
+        onChangeText={setInterests}
+        style={styles.input}
+      />
+      <TextInput
+        placeholder="Lifestyle (e.g., Chill, Clean, Party)"
+        value={lifestyle}
+        onChangeText={setLifestyle}
+        style={styles.input}
       />
 
       <Button title="Save Profile" onPress={handleSubmit} />
