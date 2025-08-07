@@ -1,7 +1,7 @@
 // src/screens/OnboardingScreen.js
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
-import { useAuth } from '../context/AuthProvider';
+import { useAuth } from '../context/AuthContext';
 
 const OnboardingScreen = () => {
   const { user, signOut } = useAuth();
