@@ -8,8 +8,8 @@ const ProfileCard = ({ user }) => {
     <View style={styles.card}>
       <Image
         source={
-          photoURL
-            ? { uri: photoURL }
+          user?.photoURL
+            ? { uri: user.photoURL }
             : { uri: 'https://www.w3schools.com/howto/img_avatar.png' }
         }
         style={styles.image}

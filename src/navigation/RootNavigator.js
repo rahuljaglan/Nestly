@@ -11,7 +11,8 @@ import CompleteProfileScreen from '../screens/CompleteProfileScreen';
 import HomeScreen from '../screens/HomeScreen';
 import SwipeScreen from '../screens/SwipeScreen';
 import MatchScreen from '../screens/MatchScreen';
-import ProfileScreen from '../screens/ProfileScreen'; // ✅ NEW SCREEN
+import ProfileScreen from '../screens/ProfileScreen';
+import ChatScreen from '../screens/ChatScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,36 @@ const RootNavigator = () => {
   // 👇 ADD THIS LINE RIGHT HERE
   console.log('➡️ Navigating to initial route:', initialRoute);
 
+  // return (
+  //   <Stack.Navigator
+  //     initialRouteName={initialRoute}
+  //     screenOptions={{ headerShown: false }}
+  //   >
+  //     {/* Onboarding Flow */}
+  //     {isFirstLaunch && !user ? (
+  //       <Stack.Screen name="Onboarding" component={OnboardingCarousel} />
+  //     ) : !user ? (
+  //       <>
+  //         <Stack.Screen name="Login" component={LoginScreen} />
+  //         <Stack.Screen name="Signup" component={SignupScreen} />
+  //       </>
+  //     ) : !profileComplete ? (
+  //       <Stack.Screen
+  //         name="CompleteProfile"
+  //         component={CompleteProfileScreen}
+  //       />
+  //     ) : (
+  //       <>
+  //         <Stack.Screen name="Swipe" component={SwipeScreen} />
+  //         <Stack.Screen name="Home" component={HomeScreen} />
+  //         <Stack.Screen name="MatchScreen" component={MatchScreen} />
+  //         <Stack.Screen name="Profile" component={ProfileScreen} />
+  //         <Stack.Screen name="Chat" component={ChatScreen} />
+  //       </>
+  //     )}
+  //   </Stack.Navigator>
+  // );
+
   return (
     <Stack.Navigator
       initialRouteName={initialRoute}
@@ -86,10 +117,12 @@ const RootNavigator = () => {
           <Stack.Screen name="Profile" component={ProfileScreen} />
         </>
       )}
+
+      {/* ✅ Always available */}
+      <Stack.Screen name="Chat" component={ChatScreen} />
     </Stack.Navigator>
   );
 };
-
 export default RootNavigator;
 
 // src/navigation/RootNavigator.js
