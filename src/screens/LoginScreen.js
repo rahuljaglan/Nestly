@@ -3,14 +3,13 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
+  TextInput,
   Button,
-  Alert,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../utils/firebase';
-import CustomInput from '../components/CustomInput';
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -19,35 +18,66 @@ const LoginScreen = ({ navigation }) => {
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // Automatically navigates via AuthContext
     } catch (error) {
-      Alert.alert('Login Error', error.message);
+      alert(error.message);
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back 👋</Text>
-      <CustomInput placeholder="Email" value={email} setValue={setEmail} />
-      <CustomInput
+      <Text style={styles.title}>Login to Nestly</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.input}
         placeholder="Password"
         value={password}
-        setValue={setPassword}
+        onChangeText={setPassword}
         secureTextEntry
       />
+
       <Button title="Login" onPress={handleLogin} />
 
       <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
-        <Text style={styles.switchText}>Don't have an account? Sign up</Text>
+        <Text style={styles.link}>Don't have an account? Sign Up</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: { padding: 20, flex: 1, justifyContent: 'center' },
-  title: { fontSize: 26, fontWeight: 'bold', marginBottom: 20 },
-  switchText: { marginTop: 20, color: 'blue', textAlign: 'center' },
-});
-
 export default LoginScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 24,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 24,
+    textAlign: 'center',
+  },
+  input: {
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    marginBottom: 16,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+  link: {
+    marginTop: 16,
+    color: '#007AFF',
+    textAlign: 'center',
+  },
+});

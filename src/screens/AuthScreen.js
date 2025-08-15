@@ -1,6 +1,6 @@
 // /screens/AuthScreen.js
 import React, { useState } from 'react';
-import { auth } from '../firebase';
+import { auth } from '../utils/firebase';
 import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import {
   getAuth,
